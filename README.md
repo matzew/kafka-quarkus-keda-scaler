@@ -1,0 +1,1 @@
+# kafka-quarkus-keda-scaler
