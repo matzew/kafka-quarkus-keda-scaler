@@ -1,0 +1,22 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kafka-quarkus-consumer
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kafka-quarkus-consumer
+  template:
+    metadata:
+      labels:
+        app: kafka-quarkus-consumer
+    spec:
+      containers:
+        - env:
+            - name: KAFKA_BOOTSTRAP_SERVERS
+              value: my-cluster-kafka-bootstrap.kafka.svc:9092
+          name: kafka-quarkus-consumer
+          image: docker.io/matzew/kafka-quarkus-consumer
+          imagePullPolicy: IfNotPresent
