@@ -1,6 +1,44 @@
 # kafka-quarkus-keda-scaler
 
-Sample project that builds a simple `QuarkusConsumer`, based on [Quarkus](https://quarkus.io/) reading from a topic like:
+Sample project that builds a simple `QuarkusConsumer`, based on [Quarkus](https://quarkus.io/).
+
+## Architecture Overview
+
+```bash
+                                                         Kubernetes Cluster
+┌──────────────────────────┐          ┌───────────────────────────────────────────────────────────┐
+│                          │          │                                                           │
+│  Apache Kafka cluster    │          │                                                           │
+│                          │          │                                                           │
+│                          │          │                                   Consumer Group          │
+│   ┌──────────────────┐   │          │                                 ┌─────────────────┐       │
+│   │ Topic            │   │          │                                 │                 │       │
+│   │                  │   │          │  Pull Messages                  │ ┌─────────────┐ │       │
+│   │ ┌──────────────┐ ◄───┼──────────┼─────────────────────────────────┤ │Consumer-1   │ │       │
+│   │ │Partition-1   │ │   │          │                                 │ │             │ │       │
+│   │ └──────────────┘ │   │          │                                 │ └─────────────┘ │       │
+│   │                  │   │          │                                 │                 │       │
+│   │      ..          │   │          │                                 │     ..          │       │
+│   │                  │   │          │                                 │                 │       │
+│   │      ..          │   │          │                                 │     ..          │       │
+│   │                  │   │          │                                 │                 │       │
+│   │      ..          │   │          │                                 │     ...         │       │
+│   │ ┌──────────────┐ │   │          │                                 │                 │       │
+│   │ │Partition-n   │ │   │          ├─────────────────┐               │  ┌────────────┐ │       │
+│   │ └──────────────┘ │   │          │                 │               │  │Consumer-n  │ │       │
+│   │                  │   │          │                 │               │  │            │ │       │
+│   │                  │   │          │ KEDA*       ┌───┼─────────────► │  └────────────┘ │       │
+│   │                  │ ◄─┼──────────┼──┐          │   │               │                 │       │
+│   └──────────────────┘   │          │  │          │   │               └─────────────────┘       │
+│                          │          │                 │                                         │
+└──────────────────────────┘          └─────────────────┴─────────────────────────────────────────┘
+   *Keda scales the consumers of the consumer-gourp, based on records on the topic and its partitions.
+
+```
+
+## Apache Kafka topics
+
+The consumers are getting messages from a topic like:
 
 ```yaml
 apiVersion: kafka.strimzi.io/v1beta2
