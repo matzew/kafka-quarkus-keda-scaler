@@ -32,7 +32,7 @@ Sample project that builds a simple `QuarkusConsumer`, based on [Quarkus](https:
 │   └──────────────────┘   │          │  │          │   │               └─────────────────┘       │
 │                          │          │                 │                                         │
 └──────────────────────────┘          └─────────────────┴─────────────────────────────────────────┘
-   *Keda scales the consumers of the consumer-gourp, based on records on the topic and its partitions.
+   *KEDA scales the consumers of the consumer-gourp, based on records on the topic and its partitions.
 
 ```
 
