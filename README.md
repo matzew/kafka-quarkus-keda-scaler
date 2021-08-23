@@ -36,6 +36,14 @@ Sample project that builds a simple `QuarkusConsumer`, based on [Quarkus](https:
 
 ```
 
+## Setup
+
+- Install KEDA, there are multiple options:
+  - KEDA from (OperatorHub.io)[https://operatorhub.io/operator/keda]
+  - (Helm Chart)[https://artifacthub.io/packages/helm/kedacore/keda]
+  - run `kubectl apply -f https://github.com/kedacore/keda/releases/download/v2.4.0/keda-2.4.0.yaml` 
+- Configure Kafka Broker, we can use (Strimzi Kafka Operator)[https://operatorhub.io/operator/strimzi-kafka-operator]
+
 ## Apache Kafka topics
 
 The consumers are getting messages from a topic like:
